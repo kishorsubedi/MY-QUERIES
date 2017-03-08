@@ -1,0 +1,34 @@
+infile is 14 15 16## How can the myfile stream the last character when it has already streamed it once and pointer is at end 
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main(){
+  int x;
+  ifstream myfile;
+  myfile.open("infile.txt");
+  myfile>> x ;
+  while(myfile){
+    cout << x ;
+    myfile>> x ;
+  }
+  
+}
+// outputs 141516. how? when
+
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main(){
+  int x;
+  ifstream myfile;
+  myfile.open("infile.txt");
+  myfile>> x ;
+  while(myfile){
+    myfile>> x ;
+    cout << x ;
+  }
+  
+}
+//outputs 151616. 
