@@ -1,0 +1,19 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+    int a;
+    ifstream myfile;
+    myfile.open("infile.txt");
+    myfile >> a;
+    while (myfile){
+        cout<< a ;
+        myfile >> a ;
+    }
+    cout<< "End reached" ;
+    return 0 ;
+}
+// Prints 1415116  BUT,##
+
