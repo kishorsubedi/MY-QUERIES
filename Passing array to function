@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+void function(int x[], int size);
+
+int main()
+{
+  int bucky[5] = {55,42,1,90,7};
+  function(bucky, 5) ;
+  
+  return 0;
+}
+
+void function(int x[], int size){
+  for (int i = 0; i<size  ; i++){
+    cout<< x[i] << endl ;
+  }
+}
+
+// Should print
+55
+42
+1
+90
+7
+but if i<=size is made, it prints random extra numbers. What element is stored in that extra index?
