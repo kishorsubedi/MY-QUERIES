@@ -1,0 +1,15 @@
+#include <iostream>
+using namespace std;
+
+void function(int x[], int size);
+
+int main()
+{
+  int a[7];
+  cout << sizeof(a) << endl; //28
+  cout<< *a << endl; //4196608
+  cout<< sizeof(*a) ; //4
+  cout<< sizeof(a) / sizeof(*a) ; //7
+  return 0;
+}
+
