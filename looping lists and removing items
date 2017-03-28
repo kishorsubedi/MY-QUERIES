@@ -1,0 +1,16 @@
+
+nums1 = [5, 10, 15]
+nums2 = [10, 15]
+
+for val in nums1[:]:
+    if val in nums2:
+        nums1.remove(val)
+print(nums1) # [5]
+
+nums1 = [5, 10, 15]
+nums2 = [10, 15]
+
+for val in nums1:
+    if val in nums2:
+        nums1.remove(val)
+print(nums1) # [5,10]
