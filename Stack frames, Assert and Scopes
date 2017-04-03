@@ -1,0 +1,31 @@
+def f1(x):
+  def g():
+    x= 'abc'
+    assert False
+  x= x +1 
+  g() 
+  return x 
+
+print(f1(4))  #assertion error
+#g is not completed so stack frames has main, f1 and g. 
+
+def f1(x):
+  def g():
+    x= 'abc'
+  x= x +1 
+  g()
+  assert False
+  return x 
+
+print(f1(4))  
+#assertion error # g has completed so it has popped out from stack frames; f1 and main are only left, because not completed.
+
+def f1(x):
+  def g():
+    x= 'abc'
+    assert False
+  x= x +1 
+  g()
+  return x 
+
+print(f1(4)) #nothing in stackframes. prints 5. because x = 'abc' is local and is not in the scope of f1(x)
