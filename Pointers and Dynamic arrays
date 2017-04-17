@@ -15,7 +15,7 @@ int main()
   return 0;
 }
 
-DYNAMIC ARRAY:
+DYNAMIC ARRAY: //Whats the use of dynamic arrays or dyanamic variables>?
 
 #include <iostream>
 using namespace std;
