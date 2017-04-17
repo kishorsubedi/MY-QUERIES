@@ -15,3 +15,24 @@ int main()
   return 0;
 }
 
+DYNAMIC ARRAY:
+
+#include <iostream>
+using namespace std;
+
+void function(int* x);
+
+int main()
+{ 
+  int n;
+  cin >> n;
+  int* ptr = new int[n];
+  function(ptr);
+  return 0;
+} 
+
+
+void function(int* x)
+{
+  x[0] = 1;
+}
