@@ -36,3 +36,13 @@ void function(int* x)
 {
   x[0] = 1;
 }
+
+// Making a pointer point to an array
+
+int* point ;
+int array[5] = {1,2,3,4,5};
+point = array ;
+
+// Making an array of pointers
+
+int* pointers_array[5] ; 
