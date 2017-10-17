@@ -1,0 +1,58 @@
+def function(string1, string2):
+  if (len(string1) != len(string2)):
+    return False 
+    
+  even_dict = {}
+  odd_dict = {}
+  i = 0
+  while( i< len(string1)): #O(N)
+    if i% 2 == 0: #even
+      if string1[i] in even_dict:
+        even_dict[string1[i]] += 1 
+      else:
+        even_dict[string1[i]] = 1 
+    else:
+      if string1[i] in odd_dict:
+        odd_dict[string1[i]] += 1 
+      else:
+        odd_dict[string1[i]] = 1 
+    i += 1 
+  
+  j = 0
+  while( j< len(string2)):
+    if (j % 2 == 0): #even_dict
+      if string2[j] not in even_dict or even_dict[string2[j]] == 0:
+        return False
+      else:
+        even_dict[string2[j]] -= 1 
+    else: #j is odd 
+      if string2[j] not in odd_dict or odd_dict[string2[j]] == 0:
+        return False
+      else:
+         odd_dict[string2[j]] -= 1
+    j += 1 
+  
+  return True
+
+def main(array1, array2):
+  if len(array1) != len(array2):
+    return False
+  else:
+    finalarray = []
+    i = 0
+    while( i< len(array1)):
+      if ( function(array1[i], array2[i]) ):
+        finalarray.append("YES")
+      else:
+        finalarray.append("NO")
+      i += 1 
+  
+    print( finalarray )
+
+main( ['cdab', 'dcba'], ['abcd', 'abcd'])
+
+
+  
+  
+  
+  
