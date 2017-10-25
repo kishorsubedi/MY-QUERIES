@@ -1,58 +1,155 @@
-def function(string1, string2):
-  if (len(string1) != len(string2)):
-    return False 
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+ 
+//specification
+class customerType
+{
+public:
+    string name;
+    int id;
+    string address;
+    char gender;
+};
+ 
+struct nodeType
+{
+    customerType info;
+    nodeType* next;
+};
+ 
+class queueType
+{
+public:
+    queueType();
+    ~queueType();
+    void enqueue(nodeType*); //add to end
+    nodeType dequeue(); //remove from front
+    void printlist();
+private:
+    nodeType* qfront;
+    nodeType* qrear;
+};
+
+queueType:: queueType()
+{
+  qfront = NULL ;
+  qrear = NULL ;
+}
+
+queueType::~queueType() //Destructs the dynamic nodes at the end of the program
+{
+  nodeType* hold ;
+  while (qfront)
+  {
+    hold = qfront -> next ;
+    delete qfront ;
+    qfront = hold ;
+  }
+  
+}
+void queueType::enqueue(nodeType* objptr)
+{
+  if(!qfront) //qfront == NULL 
+  {
+    qfront = objptr ;
+    qfront -> next = NULL ;
+    qrear = qfront ;
+  }
+  else //qrear has to point to the objptr's object
+  {
+    nodeType* curr = qfront ;
+    while (curr -> next != NULL)
+    {
+      curr = curr -> next ;
+    }
+    curr -> next = objptr;
+    curr -> next -> next = NULL ;
+    qrear = objptr ;
+  }
+}
+
+nodeType queueType::dequeue() 
+{
+  if(qfront != NULL) //Only dequeue if qfront doesn't point to NULL 
+  {
+    nodeType temp ;
+    temp.info = qfront-> info ;
+    temp.next = NULL ;
+    nodeType* hold = qfront -> next ;
+    delete qfront ;
+    qfront = hold ;
     
-  even_dict = {}
-  odd_dict = {}
-  i = 0
-  while( i< len(string1)): #O(N)
-    if i% 2 == 0: #even
-      if string1[i] in even_dict:
-        even_dict[string1[i]] += 1 
-      else:
-        even_dict[string1[i]] = 1 
-    else:
-      if string1[i] in odd_dict:
-        odd_dict[string1[i]] += 1 
-      else:
-        odd_dict[string1[i]] = 1 
-    i += 1 
-  
-  j = 0
-  while( j< len(string2)):
-    if (j % 2 == 0): #even_dict
-      if string2[j] not in even_dict or even_dict[string2[j]] == 0:
-        return False
-      else:
-        even_dict[string2[j]] -= 1 
-    else: #j is odd 
-      if string2[j] not in odd_dict or odd_dict[string2[j]] == 0:
-        return False
-      else:
-         odd_dict[string2[j]] -= 1
-    j += 1 
-  
-  return True
+    return temp;
+  }
+}
 
-def main(array1, array2):
-  if len(array1) != len(array2):
-    return False
-  else:
-    finalarray = []
-    i = 0
-    while( i< len(array1)):
-      if ( function(array1[i], array2[i]) ):
-        finalarray.append("YES")
-      else:
-        finalarray.append("NO")
-      i += 1 
+ void queueType::printlist()
+ {
+   nodeType* curr = qfront ;
+   while (curr != NULL)
+   {
+     cout << curr->info.name << endl;
+     curr = curr -> next ;
+   }
+   cout << endl << endl ;
+ }
+int main()
+{
+  ifstream myfile ;
+  myfile.open("infile.txt");
+  queueType Queue;
   
-    print( finalarray )
+  string fname, lname, st_no, st_name, st_type, city, state, zip;
+  
+  customerType customer ;
+  myfile >> lname >> fname ; //PRIMING READ
+  customer.name = fname + lname ;
+  myfile >> customer.id >> st_no >> st_name >> st_type >> city >> state >> zip >> customer.gender;
+  customer.address = st_no + st_name + st_type + city + state + zip;
+    
+  while(myfile)
+  {
+    nodeType* temp = new nodeType;
+    temp -> info = customer;
+    Queue.enqueue(temp);
+    myfile >> lname >> fname ;
+    customer.name = fname + lname ;
+    myfile >> customer.id >> st_no >> st_name >> st_type >> city >> state >> zip >> customer.gender;
+    customer.address = st_no + st_name + st_type + city + state + zip;
+  }
+  Queue.printlist() ;
+  
+  Queue.dequeue() ;
+  Queue.dequeue() ;
+  Queue.dequeue() ;
+  
+  Queue.printlist() ;
+  return 0 ;
+}
+/*
+JillHerold,
+StanJackson,
+FrancisJerry,
+WilsonJoan,
+StanleySmith,
+ClaudeClaire,
+SanRodriguez,
+MaryRobinson,
+AmeliaElliot,
+SolRemeaux,
+FrancisBacon,
 
-main( ['cdab', 'dcba'], ['abcd', 'abcd'])
 
+WilsonJoan,
+StanleySmith,
+ClaudeClaire,
+SanRodriguez,
+MaryRobinson,
+AmeliaElliot,
+SolRemeaux,
+FrancisBacon,
 
-  
-  
-  
-  
+*/
+
