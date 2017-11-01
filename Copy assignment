@@ -39,9 +39,18 @@ const Stack& Stack::operator=(const Stack& RHS)
   }
   return *this ;
 }
+Swift:
 Playground- Seeing the changes real time without having to compile and executing.watching the value in a variable displayed on side bar
 Huge community to help and grow together. Future language with Apple adding more features and updates soon.
 Statically typed language- safe, relatively faster, but adopts easy and safety features from other languages like Python, C++, Scala
 has to have a default switch case, bracekts in if else avoiding subtle errors
 Generic Programming as in C++ templates. 
+
+Iphone:
+Elegance, Slick design, Pre installed high end apps, Security-no malwares/viruses, Support-Apple Store single place to
+resort to making it easy.
+Iphone betterment:
+Siri- Intelligent assistant :
+1. good thing- Hey siri- recognizing our voice even phone locked 6s dekhi suru vo 
+2. siri has to be more intelligent. Google calendar schedule, traffic- Google assistant asks to leave early 
 
