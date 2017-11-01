@@ -39,4 +39,7 @@ const Stack& Stack::operator=(const Stack& RHS)
   }
   return *this ;
 }
+Playground- Seeing the changes real time without having to compile and executing.watching the value in a variable displayed on side bar
+Statically typed language- safe, relatively faster, but adopts easy and safety features from other languages like Python, C++, Scala
+has to have a default switch case, bracekts in if else avoiding subtle errors
 
