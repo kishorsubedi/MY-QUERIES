@@ -1,155 +1,42 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-using namespace std;
+Stack::Stack (const Stack& RHS)
+{
+  topPtr = new node ;  //topPtr is already made, and non-dynamic or stack-based variables are already copied by this point, so we are just accessing the pointer here that is already created 
+  topPtr -> info = RHS.topPtr->info ;
+   
+  node* currRHS = RHS.topPtr -> next;
+  //node* curr = topPtr -> next; //curr points to the new object's firstptr's object 
+   
+  node* curr = topPtr ;
+   
+  while(currRHS != NULL)
+  {
+    curr -> next = new node ;
+    curr = curr -> next ;
+    curr -> info = currRHS -> info ;
+     
+    currRHS = currRHS -> next ;
+  }
+}
  
-//specification
-class customerType
+const Stack& Stack::operator=(const Stack& RHS)
 {
-public:
-    string name;
-    int id;
-    string address;
-    char gender;
-};
+   
+  this -> ~Stack() ; //Calling the destructor of this object(LHS) to zero it out first
+  topPtr = new node ;
+  topPtr -> info = RHS.topPtr -> info ;
+   
+  node* currRHS = RHS.topPtr -> next ;
+  node* curr = topPtr ;
+   
  
-struct nodeType
-{
-    customerType info;
-    nodeType* next;
-};
- 
-class queueType
-{
-public:
-    queueType();
-    ~queueType();
-    void enqueue(nodeType*); //add to end
-    nodeType dequeue(); //remove from front
-    void printlist();
-private:
-    nodeType* qfront;
-    nodeType* qrear;
-};
-
-queueType:: queueType()
-{
-  qfront = NULL ;
-  qrear = NULL ;
-}
-
-queueType::~queueType() //Destructs the dynamic nodes at the end of the program
-{
-  nodeType* hold ;
-  while (qfront)
+  while(currRHS != NULL)
   {
-    hold = qfront -> next ;
-    delete qfront ;
-    qfront = hold ;
+    curr -> next = new node ;
+    curr = curr -> next ;
+    curr -> info = currRHS -> info ;
+     
+    currRHS = currRHS -> next ;
   }
-  
+  return *this ;
 }
-void queueType::enqueue(nodeType* objptr)
-{
-  if(!qfront) //qfront == NULL 
-  {
-    qfront = objptr ;
-    qfront -> next = NULL ;
-    qrear = qfront ;
-  }
-  else //qrear has to point to the objptr's object
-  {
-    nodeType* curr = qfront ;
-    while (curr -> next != NULL)
-    {
-      curr = curr -> next ;
-    }
-    curr -> next = objptr;
-    curr -> next -> next = NULL ;
-    qrear = objptr ;
-  }
-}
-
-nodeType queueType::dequeue() 
-{
-  if(qfront != NULL) //Only dequeue if qfront doesn't point to NULL 
-  {
-    nodeType temp ;
-    temp.info = qfront-> info ;
-    temp.next = NULL ;
-    nodeType* hold = qfront -> next ;
-    delete qfront ;
-    qfront = hold ;
-    
-    return temp;
-  }
-}
-
- void queueType::printlist()
- {
-   nodeType* curr = qfront ;
-   while (curr != NULL)
-   {
-     cout << curr->info.name << endl;
-     curr = curr -> next ;
-   }
-   cout << endl << endl ;
- }
-int main()
-{
-  ifstream myfile ;
-  myfile.open("infile.txt");
-  queueType Queue;
-  
-  string fname, lname, st_no, st_name, st_type, city, state, zip;
-  
-  customerType customer ;
-  myfile >> lname >> fname ; //PRIMING READ
-  customer.name = fname + lname ;
-  myfile >> customer.id >> st_no >> st_name >> st_type >> city >> state >> zip >> customer.gender;
-  customer.address = st_no + st_name + st_type + city + state + zip;
-    
-  while(myfile)
-  {
-    nodeType* temp = new nodeType;
-    temp -> info = customer;
-    Queue.enqueue(temp);
-    myfile >> lname >> fname ;
-    customer.name = fname + lname ;
-    myfile >> customer.id >> st_no >> st_name >> st_type >> city >> state >> zip >> customer.gender;
-    customer.address = st_no + st_name + st_type + city + state + zip;
-  }
-  Queue.printlist() ;
-  
-  Queue.dequeue() ;
-  Queue.dequeue() ;
-  Queue.dequeue() ;
-  
-  Queue.printlist() ;
-  return 0 ;
-}
-/*
-JillHerold,
-StanJackson,
-FrancisJerry,
-WilsonJoan,
-StanleySmith,
-ClaudeClaire,
-SanRodriguez,
-MaryRobinson,
-AmeliaElliot,
-SolRemeaux,
-FrancisBacon,
-
-
-WilsonJoan,
-StanleySmith,
-ClaudeClaire,
-SanRodriguez,
-MaryRobinson,
-AmeliaElliot,
-SolRemeaux,
-FrancisBacon,
-
-*/
 
