@@ -1,0 +1,41 @@
+#include <iostream>
+using namespace std ;
+
+class kishorType
+{
+    public:
+        kishorType(char) ;
+        friend ostream& operator<< (ostream& ostr, const kishorType& s)
+        {
+            cout << s.ascii();
+        }
+        
+        int operator+ (kishorType& s) const
+        {
+            return s.value + this->value ;
+        }
+        
+        int ascii()
+        {
+            return (int) character ;
+        }
+    private:
+        char character;
+        int value ;
+};
+
+kishorType::kishorType(char x)
+{
+    this -> character = x ;
+    this -> value = (int) x ;
+}
+
+int main()
+{
+    kishorType kishor('K') ;
+    cout << kishor << endl; 
+    
+    kishorType anurag('A') ;
+    cout << kishor+anurag ;
+    return 0 ;
+}
