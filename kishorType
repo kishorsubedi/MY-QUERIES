@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std ;
+
+class kishorType
+{
+    public:
+        kishorType(char) ;
+        friend ostream& operator<< (ostream& ostr, const kishorType& s)
+        {
+            cout << s.value ;
+        }
+        int operator+ (kishorType& s) const
+        {
+            return s.value + this->value ;
+        }
+        
+    private:
+        char character;
+        int value ;
+};
+
+kishorType::kishorType(char x)
+{
+    this -> character = x ;
+    this -> value = (int) x ;
+}
+
+int main()
+{
+    kishorType kishor('K') ;
+    cout << kishor << endl; 
+    
+    kishorType ada('A') ;
+    cout << kishor+ada ;
+    return 0 ;
+}
