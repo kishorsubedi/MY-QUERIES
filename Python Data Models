@@ -1,0 +1,16 @@
+class Polynomial:
+    
+    def __init__(self, *coeff):
+        self.coeff = coeff
+    
+    def __len__(self):
+        return len(self.coeff)
+    
+    def __add__(self,other):
+        return [x+y for (x,y) in zip(self.coeff, other.coeff) ]
+
+
+p1 = Polynomial(1,2,3)
+p2 = Polynomial(4,5,6)
+print(len(p1)) 3 
+print(p1+p2 ) #[5,7,9]
