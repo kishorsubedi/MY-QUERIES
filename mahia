@@ -1,3 +1,240 @@
+A#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+    
+class StudentType
+{
+  public: //public members
+      string firstname;
+      string lastname ;
+      int teamID;
+      string city;
+};
+  
+struct nodeType
+{
+  nodeType* prev ;
+  StudentType info;
+  nodeType* next ;
+};
+  
+class UnsortedListType
+{
+  public:
+    UnsortedListType() ; //Constructor
+    ~UnsortedListType() ; //Destructor
+    void printlist();
+    void insertinOrder(StudentType);
+    void insertend(StudentType );
+    void insertfront(StudentType );
+    void insertmid(StudentType ) ;
+    nodeType* gotonode(nodeType* , int, char ) ;
+    
+    nodeType* firstptr; //the first pointer
+    nodeType* testptr ;
+    int length ;
+};
+ 
+UnsortedListType::UnsortedListType()  //Constructor
+{
+  firstptr = NULL ;
+  testptr = NULL ;
+  length = 0 ;
+}
+ 
+UnsortedListType::~UnsortedListType()  //Destructor
+{
+  while (firstptr)
+  {
+    nodeType* curr = firstptr -> next ;
+    delete firstptr ;
+    firstptr = curr ;
+  }
+}
+ 
+void UnsortedListType::printlist()
+{
+  nodeType* curr = firstptr;
+ 
+  while(curr -> next != NULL)
+  {
+      cout << curr -> info.lastname << "  " << curr ->info.firstname << " " << curr ->info.teamID << " " << curr -> info.city << endl ;
+      curr = curr -> next ;
+  }
+ cout << curr -> info.lastname << "  " << curr ->info.firstname << " " << curr ->info.teamID << " " << curr -> info.city << endl ;
+  
+}
+ 
+void  UnsortedListType::insertend(StudentType obj)
+{
+    nodeType* prevslider = firstptr ;
+    nodeType* currslider = firstptr->next ;
+    while(currslider != NULL && currslider -> info.lastname < obj.lastname )
+    {
+        prevslider = currslider ;
+        currslider = currslider -> next ;
+    }
+    
+    nodeType* newpointer = new nodeType;
+    newpointer -> info = obj ;
+    prevslider -> next = newpointer;
+    
+    newpointer -> next = currslider ;
+    
+    newpointer -> prev = prevslider ;
+    if (currslider != NULL)
+        currslider -> prev = newpointer ;
+}
+ 
+void UnsortedListType::insertfront(StudentType obj)
+{
+    if (firstptr == NULL)
+    {
+        firstptr = new nodeType;
+        firstptr -> prev = NULL ;
+        firstptr -> info = obj ;
+        firstptr -> next = NULL ;
+    }
+    else if (firstptr -> next == NULL)
+    {
+        if (obj.lastname < firstptr->info.lastname)
+        {
+            nodeType* curr = new nodeType;
+            curr ->info = obj ;
+            curr -> prev = NULL ;
+            curr -> next = firstptr ;
+            firstptr -> prev = curr ;
+            firstptr = curr ;
+        }
+        else 
+        {
+            nodeType* curr = new nodeType;
+            curr -> info = obj ;
+            curr -> next = NULL ;
+            curr -> prev = firstptr ;
+            firstptr -> next = curr ;
+        }
+    }
+    else 
+    {
+            nodeType* curr = new nodeType;
+            curr ->info = obj ;
+            curr -> prev = NULL ;
+            curr -> next = firstptr ;
+            firstptr -> prev = curr ;
+            firstptr = curr ;
+    }
+}
+void UnsortedListType::insertinOrder(StudentType x)
+{
+    if(firstptr == NULL || firstptr -> next == NULL)
+        insertfront(x) ;
+    else 
+        if (x.lastname < firstptr->info.lastname)
+            insertfront(x);
+        else
+            insertend(x) ;
+}
+
+void UnsortedListType::insertmid(StudentType obj)
+{
+  length += 1 ;
+  int count = 0 ;
+  nodeType* curr = NULL;
+  for(curr = firstptr; curr != NULL ; curr = curr -> next)
+  {
+    count += 1 ;
+  }
+  //count= number of items in linked list 
+  count = (count)/2  ; //count = how many times to loop to go the middle member
+   
+  nodeType* prev = NULL ;
+  curr = firstptr ;
+   
+  for(int i=0; i< count; i++) //for count 2 loop two times
+  {
+    prev = curr ;
+    curr = curr -> next ;
+  }
+  prev -> next = new nodeType;
+  prev -> next->info = obj ;
+  prev -> next->next = curr ;
+} 
+
+nodeType* UnsortedListType::gotonode(nodeType* curr, int units, char direction)
+{
+    if (curr == NULL)
+    {
+        cout << "Trying to move forward from a nullptr" << endl;
+        return nullptr ;
+    }
+        
+    if (direction == 'F'){
+        for (int i=0; i< units; i++)
+        {
+            if (curr -> next != NULL)
+                curr = curr -> next ;
+            else 
+                return nullptr ;
+        }
+        return curr;
+    }
+    else if (direction == 'B')
+    {
+        for (int i=0; i< units; i++)
+        {
+            if (curr -> prev != NULL)
+                curr = curr -> prev ;
+            else    
+                return nullptr ;
+        }
+        return curr;
+    }
+}
+void printnode(nodeType* temp)
+{
+    if(temp==nullptr)
+        cout << "Out of bound" << endl ;
+    else 
+        cout << temp->info.lastname << " " << temp->info.firstname << " " << temp->info.teamID << " "
+        <<  temp->info.city << endl << endl ;
+}
+int main()
+{
+    ifstream myfile;
+    myfile.open("infile.txt");
+      
+    UnsortedListType RecruitingTeam ; //Instantiate
+    int i = 0 ;
+    while(!myfile.eof())
+    {
+      StudentType temp ;
+      myfile >> temp.firstname >> temp.lastname >> temp.teamID >> temp.city ; //populating the temp object
+        RecruitingTeam.insertinOrder(temp);
+        i ++ ; 
+    }
+    RecruitingTeam.printlist() ;
+    
+    RecruitingTeam.testptr = RecruitingTeam.gotonode(RecruitingTeam.firstptr, 35, 'F');//testptrgoes to last node 
+    printnode(RecruitingTeam.testptr) ;
+    
+    RecruitingTeam.testptr = RecruitingTeam.gotonode(RecruitingTeam.firstptr, 15, 'F');//testptr traverses  5 node forward 
+    printnode(RecruitingTeam.testptr);
+    
+    RecruitingTeam.testptr= RecruitingTeam.gotonode(RecruitingTeam.testptr, 10, 'B');//testptr moved to last node 
+    printnode(RecruitingTeam.testptr) ; 
+    
+    RecruitingTeam.testptr = RecruitingTeam.gotonode(RecruitingTeam.firstptr,35 , 'F');//testptr moved back to first node 
+    printnode(RecruitingTeam.testptr) ;
+    
+    RecruitingTeam.testptr= RecruitingTeam.gotonode(RecruitingTeam.testptr,1 ,'F');//testptr tries to go forward 1 unit from last node 
+    printnode(RecruitingTeam.testptr) ;
+    
+    //RecruitingTeam.printlist() ; //Prints the info part of the nodes of the RecruitingTeam object
+    return 0;
+}
+/*
 Akinsiku  Adegboyega 4 Topeka
 Angus  Susan 3 Burke
 Brown  Charles 0 Bowie
@@ -34,18 +271,15 @@ bratcher  jonnetta 3 Charleston
 foreman  victor 4 Earlsville
 lingani  johan 8 Woodbridge
 mahop  crepin 2 Bolder
+mahop crepin 2 Bolder
 
+Keeling Kendall 3 Miami
 
-Akinsiku
+Clark Allee 4 Pittsburg
 
+mahop crepin 2 Bolder
 
-mahop
-
-
-Clark
-
-
-bratcher
-
+Out of bound
+*/
 
 Akinsiku
