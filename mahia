@@ -254,3 +254,36 @@ int main()
     RecruitingTeam.Getitem("Langley").print();
     return 0;
 }
+/*
+
+    StudentType Getitem(string lastname)
+    {
+      int first = 0 ;
+      int last = length - 1 ;
+      bool found = false ;
+      bool moretosearch = first <= last ;
+      int midpoint ;
+      nodeType* x ;
+      while(moretosearch && !found )
+      {
+        midpoint = (first + last) / 2 ;
+        x = gotonode(firstptr, midpoint, 'F') ;
+        if (lastname < x->info.lastname )
+        {
+          last = midpoint - 1 ;
+          moretosearch = first <= last ;
+        }
+        else
+        {
+          if (lastname > x -> info.lastname ){
+            first = midpoint + 1 ;
+            moretosearch = first <= last ;
+          }
+          else
+            found = true ;
+        }
+      }
+      return x -> info; 
+    }
+    
+    */
