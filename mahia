@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 using namespace std;
-     
+ 
 class StudentType
 {
   public: //public members
@@ -10,19 +10,19 @@ class StudentType
       string lastname ;
       int teamID;
       string city;
-      void print() 
+      void print()
       {
           cout << firstname << " " << lastname << " " << teamID << " " << city << " " << endl;
       }
 };
-   
+ 
 struct nodeType
 {
   nodeType* prev ;
   StudentType info;
   nodeType* next ;
 };
-   
+ 
 class UnsortedListType
 {
   public:
@@ -34,48 +34,44 @@ class UnsortedListType
     void insertfront(StudentType );
     void insertmid(StudentType ) ;
     nodeType* gotonode(nodeType* , int, char ) ;
-     
+ 
     StudentType Getitem(string lastname)
     {
         int lengthcopy = length ;
         nodeType* low = firstptr ;
-        nodeType* high = gotonode(firstptr, length-1, 'F' ); //Length = 5, 6 
-        nodeType* mid = gotonode(firstptr, length/2, 'F'); //mid = 2, 3
-         
-        while(mid -> info.lastname != lastname)
+        nodeType* high = gotonode(firstptr, length-1, 'F' );
+        nodeType* mid = gotonode(firstptr, length/2, 'F');
+ 
+        while(mid -> info.lastname != lastname) //Loop until you don't find  the searched element
         {
-            if( lastname < mid -> info.lastname ){ //go forward 
-                high = mid ;
+            if( lastname < mid -> info.lastname ){ //go back
+                high = mid-1 ; //just check the first half
                 lengthcopy = (lengthcopy/2 +1 );
                 mid = gotonode(mid, lengthcopy/2, 'B');
             }
-            else if (lastname > mid -> info.lastname){ //go forward 
-                low = mid ;
-                if (lengthcopy% 2 == 0){
-                    lengthcopy = lengthcopy/2  ; 
-                    mid = gotonode(mid, lengthcopy/2, 'F');
-                }
-                else{
-                    lengthcopy = lengthcopy+1 / 2 ; 
-                    mid = gotonode(mid, lengthcopy/2, 'F');
-                }
+            else if (lastname > mid -> info.lastname){ //go forward
+                low = mid+1 ; //check the 2nd half
+                if (lengthcopy% 2 == 0)
+                    lengthcopy = lengthcopy/2  ;
+                else
+                    lengthcopy = lengthcopy+1 / 2 ;
+                 mid = gotonode(mid, lengthcopy/2, 'F');
             }
         }
-        return mid->info;
-         
+        return mid->info; //return the StudentType if mid->info.lastname == lastname
     }
     nodeType* firstptr; //the first pointer
     nodeType* testptr ;
     int length ;
 };
-  
+ 
 UnsortedListType::UnsortedListType()  //Constructor
 {
   firstptr = NULL ;
   testptr = NULL ;
   length = 0 ;
 }
-  
+ 
 UnsortedListType::~UnsortedListType()  //Destructor
 {
   while (firstptr)
@@ -85,7 +81,7 @@ UnsortedListType::~UnsortedListType()  //Destructor
     firstptr = curr ;
   }
 }
-  
+ 
 void UnsortedListType::printlist()
 {
   nodeType* curr = firstptr;
@@ -96,7 +92,7 @@ void UnsortedListType::printlist()
   }
  cout << curr -> info.lastname << "  " << curr ->info.firstname << " " << curr ->info.teamID << " " << curr -> info.city << endl << endl;
 }
-  
+ 
 void  UnsortedListType::insertend(StudentType obj)
 {
     nodeType* prevslider = firstptr ;
@@ -106,18 +102,18 @@ void  UnsortedListType::insertend(StudentType obj)
         prevslider = currslider ;
         currslider = currslider -> next ;
     }
-     
+ 
     nodeType* newpointer = new nodeType;
     newpointer -> info = obj ;
     prevslider -> next = newpointer;
-     
+ 
     newpointer -> next = currslider ;
-     
+ 
     newpointer -> prev = prevslider ;
     if (currslider != NULL)
         currslider -> prev = newpointer ;
 }
-  
+ 
 void UnsortedListType::insertfront(StudentType obj)
 {
     if (firstptr == NULL)
@@ -178,12 +174,12 @@ void UnsortedListType::insertmid(StudentType obj)
   {
     count += 1 ;
   }
-  //count= number of items in linked list 
+  //count= number of items in linked list
   count = (count)/2  ; //count = how many times to loop to go the middle member
-    
+ 
   nodeType* prev = NULL ;
   curr = firstptr ;
-    
+ 
   for(int i=0; i< count; i++) //for count 2 loop two times
   {
     prev = curr ;
@@ -192,23 +188,23 @@ void UnsortedListType::insertmid(StudentType obj)
   prev -> next = new nodeType;
   prev -> next->info = obj ;
   prev -> next->next = curr ;
-} 
+}
  
 nodeType* UnsortedListType::gotonode(nodeType* curr, int units, char direction)
 {
     if (curr == NULL)
     {
         cout << "Trying to move forward from a nullptr" << endl;
-        return nullptr ;
+        return NULL ;
     }
-         
+ 
     if (direction == 'F'){
         for (int i=0; i< units; i++)
         {
             if (curr -> next != NULL)
                 curr = curr -> next ;
             else
-                return nullptr ;
+                return NULL ;
         }
         return curr;
     }
@@ -218,15 +214,15 @@ nodeType* UnsortedListType::gotonode(nodeType* curr, int units, char direction)
         {
             if (curr -> prev != NULL)
                 curr = curr -> prev ;
-            else   
-                return nullptr ;
+            else
+                return NULL ;
         }
         return curr;
     }
 }
 void printnode(nodeType* temp)
 {
-    if(temp==nullptr)
+    if(temp==NULL)
         cout << "Out of bound" << endl ;
     else
         cout << temp->info.lastname << " " << temp->info.firstname << " " << temp->info.teamID << " "
@@ -236,7 +232,7 @@ int main()
 {
     ifstream myfile;
     myfile.open("infile.txt");
-       
+ 
     UnsortedListType RecruitingTeam ; //Instantiate
     int i = 0 ;
     while(!myfile.eof())
@@ -244,46 +240,14 @@ int main()
       StudentType temp ;
       myfile >> temp.firstname >> temp.lastname >> temp.teamID >> temp.city ; //populating the temp object
         RecruitingTeam.insertinOrder(temp);
-        i ++ ; 
+        i ++ ;
     }
     RecruitingTeam.printlist() ;
-    RecruitingTeam.Getitem("Fisher").print();
-    RecruitingTeam.Getitem("McKinney").print();
-    RecruitingTeam.Getitem("Ojie").print();
-    RecruitingTeam.Getitem("Williams").print();
-    RecruitingTeam.Getitem("Langley").print();
+    RecruitingTeam.Getitem("Akinsiku").print();
+    RecruitingTeam.Getitem("Holt").print();
+    RecruitingTeam.Getitem("Huskey").print();
+    RecruitingTeam.Getitem("Foreman").print();
+    RecruitingTeam.Getitem("Bratcher").print();
+ 
     return 0;
 }
-/*
-
-    StudentType Getitem(string lastname)
-    {
-      int first = 0 ;
-      int last = length - 1 ;
-      bool found = false ;
-      bool moretosearch = first <= last ;
-      int midpoint ;
-      nodeType* x ;
-      while(moretosearch && !found )
-      {
-        midpoint = (first + last) / 2 ;
-        x = gotonode(firstptr, midpoint, 'F') ;
-        if (lastname < x->info.lastname )
-        {
-          last = midpoint - 1 ;
-          moretosearch = first <= last ;
-        }
-        else
-        {
-          if (lastname > x -> info.lastname ){
-            first = midpoint + 1 ;
-            moretosearch = first <= last ;
-          }
-          else
-            found = true ;
-        }
-      }
-      return x -> info; 
-    }
-    
-    */
