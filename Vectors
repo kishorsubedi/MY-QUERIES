@@ -1,0 +1,144 @@
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
+using namespace std;
+  
+class addressType
+{
+  public:
+    int streetAddressNum,zipCode;
+    string streetName,streetType,city,stateInitials;
+    addressType(); //constructor addressType
+};
+   
+class personType
+{
+  public:
+    string name;
+    int personNum, personID;
+    addressType address;
+    char gender;
+    personType(); //constructor personType
+       
+    void printPerson();
+    void setInterest1(string i1) ;
+    void setInterest2(string i2); 
+       
+    string getInterest1();
+    string getInterest2();
+       
+  private:
+    string interest1;
+    string interest2;
+};
+   
+class membershipType:public personType
+{
+public:
+    char membership_type;
+    char membership_status;
+    membershipType();  // 1st constructor
+    membershipType(char,char);  // 2nd constructor
+    void print_member_type();
+};
+   
+addressType:: addressType() //initializes or zeroes out the variables 
+{
+      streetAddressNum=0;
+      streetName="";
+      streetType = "";
+      city = "";
+      stateInitials = "";
+      zipCode = 0;
+}
+   
+personType:: personType() //initializes
+{
+  name ="";
+  personNum=0;
+  gender=' ';
+  personID = 0;
+}
+   
+void personType::printPerson() //Prints the value of data members
+{
+      cout<< name <<  "\t" << personNum << "\t" << personID << "\t"  << address.streetAddressNum << "\t"<< address.streetName
+      << "\t"<< address.streetType << "\t" << address.city << "\t"<< address.stateInitials <<"\t"<< address.zipCode << "\t" << gender << endl;
+}
+   
+void personType::setInterest1(string i1) { //Manipulator function
+      interest1 = i1; }  
+   
+void personType::setInterest2(string i2) {
+      interest2 = i2; }
+       
+string personType::getInterest1(){ //Accessor function
+      return interest1;}
+   
+string personType::getInterest2(){
+      return interest2;}
+         
+membershipType::membershipType(){
+  membership_type = ' ' ;
+  membership_status = ' ' ;
+}
+   
+membershipType::membershipType(char type, char status){
+  membership_type = type ;
+  membership_status = status ;
+}
+   
+void membershipType::print_member_type(){
+  cout << "Name: "<< name << endl << "Person ID: "<< personID << endl << "Membership status: " << membership_status << endl << "Membership type: " << membership_type << endl << "Interests: " << getInterest1() << ", "<< "  "
+  << getInterest2() << endl << address.streetAddressNum << "  " << address.streetName << "  " << address.streetType << "  "
+  << address.city << "  " << address.stateInitials << "  " << address.zipCode << endl << endl;
+}
+  
+void print(vector <membershipType> members, vector <membershipType> :: iterator i )
+{
+    for (i= members.begin(); i!= members.end(); ++i)
+    {
+        cout << "Name: "<< i ->name << endl << "Person ID: "<< i ->personID << endl << "Membership status: " << i ->membership_status << endl << "Membership type: " << i ->membership_type << endl << "Interests: " << i ->getInterest1() << ", "<< "  "
+  << i ->getInterest2() << endl << i ->address.streetAddressNum << "  " << i ->address.streetName << "  " << i ->address.streetType << "  "
+  << i ->address.city << "  " << i ->address.stateInitials << "  " << i ->address.zipCode << endl << endl;
+    }
+}
+ 
+class contact_infoType
+{
+     public:
+        string get_emailAddress;
+     private:
+        string emailAddress;
+        string phoneNumber;
+        string userName;
+        string password;
+}; 
+ 
+int main()
+{
+    vector <membershipType> members; 
+    vector <membershipType> :: iterator i ;
+    string x, i1, i2, firstName, lastName;
+    ifstream myfile;
+    myfile.open("infile.txt");
+    membershipType member_temp ;
+    for( int k = 0; k < 6; k++)
+    {
+        myfile >> lastName  >> firstName >> member_temp.personNum >> 
+            member_temp.personID >> member_temp.address.streetAddressNum >>
+ member_temp.address.streetName >>member_temp.address.streetType >> member_temp.address.city >>  member_temp.address.stateInitials >>  member_temp.address.zipCode >> member_temp.gender;
+        myfile>> i1 >> i2;
+        member_temp.name = firstName + " " + lastName ; //concatenating into one string variable
+        member_temp.setInterest1(i1);
+        member_temp.setInterest2(i2);
+        myfile >> member_temp.membership_type >> member_temp.membership_status ;
+        members.push_back(member_temp) ;
+    }    
+      
+    print(members, i) ;
+    myfile.close(); //streaming close
+    system("pause");    
+    return 0;
+}
